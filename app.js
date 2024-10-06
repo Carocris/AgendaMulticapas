@@ -44,9 +44,11 @@ document.getElementById('contact-form').addEventListener('submit', function(even
 
     fetch(apiUrl, {
         method: 'POST',
-        body: JSON.stringify(nuevoContacto)
+        body: JSON.stringify(nuevoContacto),
+        headers: {
+            'Content-Type': 'application/json' // Se añade el encabezado Content-Type
+        }
     })
-    
     .then(response => {
         console.log('Estado de la respuesta:', response.status);
         if (!response.ok) {
