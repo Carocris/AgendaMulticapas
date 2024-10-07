@@ -4,6 +4,7 @@ const apiUrl = 'https://www.raydelto.org/agenda.php';
 window.onload = function() {
     fetch(apiUrl)
         .then(response => {
+            console.log('Estado de la respuesta al obtener contactos:', response.status);
             if (!response.ok) {
                 throw new Error('Error al obtener los contactos');
             }
@@ -29,6 +30,7 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     const apellido = document.getElementById('apellido').value;
     const telefono = document.getElementById('telefono').value;
 
+    // Validar si los campos están vacíos
     if (!nombre || !apellido || !telefono) {
         alert('Por favor, complete todos los campos');
         return;
@@ -50,14 +52,14 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         }
     })
     .then(response => {
-        console.log('Estado de la respuesta:', response.status);
+        console.log('Estado de la respuesta al agregar contacto:', response.status); // Depuración de estado
         if (!response.ok) {
-            throw new Error('Error al agregar el contacto: ' + response.status);
+            throw new Error(`Error al agregar el contacto. Estado: ${response.status}`);
         }
-        return response.text();
+        return response.text(); // Ver la respuesta en crudo
     })
     .then(data => {
-        console.log('Respuesta del servidor:', data);
+        console.log('Respuesta del servidor:', data); // Mostrar la respuesta del servidor
         alert('Contacto agregado exitosamente');
 
         // Agregar el nuevo contacto a la lista
@@ -71,6 +73,6 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     })
     .catch(error => {
         console.error('Error al agregar el contacto:', error);
-        alert('Hubo un problema al agregar el contacto');
+        alert(`Hubo un problema al agregar el contacto. ${error.message}`);
     });
 });
