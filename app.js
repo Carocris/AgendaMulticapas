@@ -1,4 +1,4 @@
-const apiUrl = 'http://www.raydelto.org/agenda.php';
+const apiUrl = 'https://www.raydelto.org/agenda.php';
 
 window.onload = function() {
     fetch(apiUrl)
