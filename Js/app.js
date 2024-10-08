@@ -1,78 +1,84 @@
-const apiUrl = 'https://www.raydelto.org/agenda.php';
+document.addEventListener('DOMContentLoaded', () => {
+    // Cargar contactos cuando la página se cargue
+    loadContacts();
 
-// Obtener los contactos al cargar la página
-window.onload = function() {
-    fetch(apiUrl)
-        .then(response => {
-            console.log('Estado de la respuesta al obtener contactos:', response.status);
-            if (!response.ok) {
-                throw new Error('Error al obtener los contactos');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const contactList = document.getElementById('contact-list');
-            contactList.innerHTML = ''; 
-            data.forEach(contact => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${contact.nombre} ${contact.apellido} - ${contact.telefono}`;
-                contactList.appendChild(listItem);
-            });
-        })
-        .catch(error => console.error('Error al obtener los contactos:', error));
-};
+    // Manejar el formulario para agregar un nuevo contacto
+    document.getElementById('agregarContacto').addEventListener('click', function() {
+        const nombre = document.getElementById('nombre').value;
+        const apellido = document.getElementById('apellido').value;
+        const telefono = document.getElementById('telefono').value;
 
-// Manejar el envío del formulario para agregar un nuevo contacto
-document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const nombre = document.getElementById('nombre').value;
-    const apellido = document.getElementById('apellido').value;
-    const telefono = document.getElementById('telefono').value;
-
-    // Validar si los campos están vacíos
-    if (!nombre || !apellido || !telefono) {
-        alert('Por favor, complete todos los campos');
-        return;
-    }
-
-    const nuevoContacto = {
-        nombre: nombre,
-        apellido: apellido,
-        telefono: telefono
-    };
-
-    console.log('Enviando datos:', nuevoContacto);
-
-    fetch(apiUrl, {
-        method: 'POST',
-        body: JSON.stringify(nuevoContacto),
-        headers: {
-            'Content-Type': 'application/json'
+        // Verificar si los campos están vacíos
+        if (nombre.trim() === '' || apellido.trim() === '' || telefono.trim() === '') {
+            alert("Por favor, rellene todos los campos.");
+            return;
         }
+
+        // Agregar el contacto
+        addContact({ nombre, apellido, telefono });
+    });
+});
+
+// Función para cargar contactos
+function loadContacts() {
+    fetch('http://www.raydelto.org/agenda.php', {
+        method: 'GET',
     })
     .then(response => {
-        console.log('Estado de la respuesta al agregar contacto:', response.status); // Depuración de estado
         if (!response.ok) {
-            throw new Error(`Error al agregar el contacto. Estado: ${response.status}`);
+            throw new Error(`Error en la solicitud: ${response.status}`);
         }
-        return response.text(); // Ver la respuesta en crudo
+        return response.json();
     })
     .then(data => {
-        console.log('Respuesta del servidor:', data); // Mostrar la respuesta del servidor
-        alert('Contacto agregado exitosamente');
+        const contactList = document.getElementById('contacts');
+        contactList.innerHTML = '';  // Limpiar la lista de contactos
 
-        // Agregar el nuevo contacto a la lista
-        const contactList = document.getElementById('contact-list');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${nombre} ${apellido} - ${telefono}`;
-        contactList.appendChild(listItem);
+        // Si no hay contactos, mostrar un mensaje
+        if (data.length === 0) {
+            contactList.innerHTML = '<li class="list-group-item">No hay contactos disponibles.</li>';
+        } else {
+            // Añadir cada contacto a la lista
+            data.forEach(contact => {
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = `${contact.nombre} ${contact.apellido} - Tel: ${contact.telefono}`;
+                contactList.appendChild(li);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error al cargar los contactos:', error);
+        const contactList = document.getElementById('contacts');
+        contactList.innerHTML = `<li class="list-group-item list-group-item-danger">Error al cargar los contactos: ${error.message}</li>`;
+    });
+}
 
+// Función para agregar un nuevo contacto
+// Función para agregar un nuevo contacto
+function addContact(contact) {
+    fetch('http://www.raydelto.org/agenda.php', {
+        method: 'POST',
+        body: JSON.stringify(contact)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud POST: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Contacto agregado:', data);
+        alert('Contacto agregado con éxito');
         // Limpiar el formulario
-        document.getElementById('contact-form').reset();
+        document.getElementById('nombre').value = '';
+        document.getElementById('apellido').value = '';
+        document.getElementById('telefono').value = '';
+        // Recargar la lista de contactos
+        loadContacts();
     })
     .catch(error => {
         console.error('Error al agregar el contacto:', error);
-        alert(`Hubo un problema al agregar el contacto. ${error.message}`);
+        alert(`Error al agregar el contacto: ${error.message}`);
     });
-});
+}

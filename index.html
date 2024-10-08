@@ -1,23 +1,35 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de Contactos</title>
-    <link rel="stylesheet" href="./CSS/styles.css">
+    <title>Agenda Web</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Agenda de Contactos</h1>
+    <div class="container">
+        <h1 class="mt-5">Agenda de Contactos</h1>
+        
+        <div class="form-row mt-4">
+            <div class="col">
+                <input type="text" class="form-control" id="nombre" placeholder="Nombre" required>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="apellido" placeholder="Apellido" required>
+            </div>
+            <div class="col">
+                <input type="tel" class="form-control" id="telefono" placeholder="Teléfono" required>
+            </div>
+            <div class="col">
+                <button id="agregarContacto" class="btn btn-success btn-block">Agregar Contacto</button>
+            </div>
+        </div>
 
-    <form id="contact-form">
-        <input type="text" id="nombre" placeholder="Nombre" required>
-        <input type="text" id="apellido" placeholder="Apellido" required>
-        <input type="text" id="telefono" placeholder="Teléfono" required>
-        <button type="submit">Agregar Contacto</button>
-    </form>
-
-    <h2>Lista de Contactos</h2>
-    <ul id="contact-list"></ul>
+        <h3 class="mt-5">Lista de Contactos</h3>
+        <ul id="contacts" class="list-group mt-3">
+            <!-- Los contactos se cargarán aquí -->
+        </ul>
+    </div>
 
     <script src="./Js/app.js"></script>
 </body>
