@@ -5,32 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Web</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #343a40;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-top: 50px;
+            max-width: 800px;
+        }
+        .form-inline .form-control {
+            width: auto;
+            display: inline-block;
+            border-radius: 30px;
+        }
+        #agregarContacto {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+        #agregarContacto:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+        #contacts {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .list-group-item i {
+            color: #17a2b8;
+        }
+        .form-inline {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Agenda de Contactos</h1>
-        
-        <div class="form-row mt-4">
-            <div class="col">
-                <input type="text" class="form-control" id="nombre" placeholder="Nombre" required>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" id="apellido" placeholder="Apellido" required>
-            </div>
-            <div class="col">
-                <input type="tel" class="form-control" id="telefono" placeholder="Teléfono" required>
-            </div>
-            <div class="col">
-                <button id="agregarContacto" class="btn btn-success btn-block">Agregar Contacto</button>
-            </div>
-        </div>
+        <h1><i class="fas fa-address-book"></i> Agenda de Contactos</h1>
 
-        <h3 class="mt-5">Lista de Contactos</h3>
+        <form class="form-inline mb-4">
+            <input type="text" class="form-control mb-2" id="nombre" placeholder="Nombre" required>
+            <input type="text" class="form-control mb-2" id="apellido" placeholder="Apellido" required>
+            <input type="tel" class="form-control mb-2" id="telefono" placeholder="Teléfono" required>
+            <button id="agregarContacto" class="btn btn-success mb-2"><i class="fas fa-plus-circle"></i> Agregar</button>
+        </form>
+
+        <h3 class="mb-3"><i class="fas fa-list"></i> Lista de Contactos</h3>
         <ul id="contacts" class="list-group mt-3">
             <!-- Los contactos se cargarán aquí -->
         </ul>
+
+        <footer>
+            <p>&copy; 2024 Agenda Web. Todos los derechos reservados.</p>
+        </footer>
     </div>
 
     <script src="./Js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
